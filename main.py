@@ -5,6 +5,10 @@ import wikipedia
 import webbrowser
 import os
 import smtplib
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
 
 NOME = "Drilon"
 print("Initializing Poncho")
@@ -70,6 +74,18 @@ if 'su wikipedia' in request.lower():
     speak(results)
 
 elif 'su youtube' in request.lower():
-    webbrowser.open('youtube.com')
+    speak('Sto cercando su YouTube...')
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver.get('https://youtube.com')
+    time.sleep(5)
+    request = request.lower()
     request = request.replace("su youtube", "")
     request = request.replace("cerca", "")
+    request = request.replace("riproduci", "")
+    driver.find_element_by_xpath('/html/body/ytd-app/div/div/ytd-masthead/div[3]/div[2]/ytd-searchbox/form/div/div[1]/input').send_keys(request)
+    driver.find_element_by_xpath('/html/body/ytd-app/div/div/ytd-masthead/div[3]/div[2]/ytd-searchbox/form/button').click()
+    speak('Ecco a te... '+request + 'su Youtube...')
+    time.sleep(2)
+    driver.find_element_by_xpath('//*[@id="contents"]/ytd-video-renderer[1]').click()
+
+
