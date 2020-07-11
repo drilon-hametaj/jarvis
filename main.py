@@ -70,6 +70,6 @@ if 'su wikipedia' in request.lower():
     speak(results)
 
 elif 'su youtube' in request.lower():
-    webbrowser.open('youtube.com');
+    webbrowser.open('youtube.com')
     request = request.replace("su youtube", "")
     request = request.replace("cerca", "")
